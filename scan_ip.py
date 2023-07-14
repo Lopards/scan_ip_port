@@ -1,17 +1,11 @@
-#ping atmak istediiniz ip numara aralığını girerek girdiğiniz aralıktaki ip numaralarının olup olmadığını kontrol ediyor.
-import os
-start_ip = input("ilk ip giriniz.")
-end_ip = input("son ip gir")
+import subprocess
+# local ağdaki ip numaralarının listesini oluşturuyor...
+output = subprocess.check_output(['nmap', '-sn', '192.168.1.0/24'])
+output = output.decode('latin-1')
 
-start_ip_split = start_ip.split(".")
-end_ip_split = end_ip.split(".")
-
-
-for ip in range(int(start_ip_split[3]),int(end_ip_split[3])+1):
-    current_ip = start_ip_split[0]+"."+start_ip_split[1]+"."+start_ip_split[2]+"."+str(ip)
-    response = os.system("ping -c 1 "+ current_ip)
-
-    if response == 0:
-        print(current_ip," var")
-    else: 
-        print(current_ip," yok")
+print("Ağdaki tüm cihazların IP adresleri:")
+lines = output.splitlines()
+for line in lines:
+    if 'Nmap scan report for' in line:
+        ip_address = line.split()[-1]
+        print(ip_address)
