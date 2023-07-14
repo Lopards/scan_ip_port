@@ -1,3 +1,4 @@
+#ping atmak istediiniz ip numara aralığını girerek girdiğiniz aralıktaki ip numaralarının olup olmadığını kontrol ediyor.
 import os
 start_ip = input("ilk ip giriniz.")
 end_ip = input("son ip gir")
